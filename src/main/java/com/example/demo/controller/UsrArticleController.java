@@ -15,20 +15,24 @@ public class UsrArticleController {
 	int lastArticleId;
 	List<Article> articles;
 
+	// 생성자
 	public UsrArticleController() {
 		lastArticleId = 0;
 		articles = new ArrayList<>();
+
 		makeTestData();
 	}
 
-
+	// 서비스메서드
 	private void makeTestData() {
 		for (int i = 1; i <= 10; i++) {
 			String title = "제목" + i;
 			String body = "내용" + i;
+
 			writeArticle(title, body);
 		}
 	}
+
 	private Article writeArticle(String title, String body) {
 		int id = lastArticleId + 1;
 		Article article = new Article(id, title, body);
@@ -37,12 +41,32 @@ public class UsrArticleController {
 		return article;
 	}
 
+	private Article getArticleById(int id) {
+		for (Article article : articles) {
+			if (article.getId() == id) {
+				return article;
+			}
+		}
+		return null;
+	}
+	// 액션 메서드
+	@RequestMapping("/usr/article/doDelete")
+	@ResponseBody
+	public String doDelete(int id) {
+		Article article = getArticleById(id);
+		if (article == null) {
+			return id + "번 글은 없음";
+		}
+		articles.remove(article);
+		return id + "번 글이 삭제됨";
+	}
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
 		Article article = writeArticle(title, body);
 		return article;
 	}
+
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public List<Article> getArticles() {
