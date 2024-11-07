@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ExitCodeEvent;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.repository.MemberRepository;
@@ -20,18 +21,27 @@ public class MemberService {
 		
 		Member existsMember = getMemberByLoginId(loginId);
 		
-		if(existsMember != null) {
+		
+		if (existsMember != null) {
 			return -1;
 		}
 		
+		existsMember = getMemberByNameAndEmail(name, email);
+		if (existsMember != null) {
+			return -2;
+		}
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		return memberRepository.getLastInsertId();
 	}
 
+	private Member getMemberByNameAndEmail(String name, String email) {
+		return memberRepository.getMemberByNameAndEmail(name, email);
+	}
 	private Member getMemberByLoginId(String loginId) {
 		return memberRepository.getMemberByLoginId(loginId);
 	}
+
 	public Member getMemberById(int id) {
 		return memberRepository.getMemberById(id);
 	}
