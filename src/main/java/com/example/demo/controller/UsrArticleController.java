@@ -53,7 +53,7 @@ public class UsrArticleController {
 		if (article == null) {
 			return id + "번 글은 없음";
 		}
-
+		
 		articleService.deleteArticle(id);
 
 		return id + "번 글이 삭제됨";
