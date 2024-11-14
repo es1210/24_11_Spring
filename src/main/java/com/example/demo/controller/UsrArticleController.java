@@ -39,14 +39,20 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/modify")
 	public String showModify(HttpServletRequest req, Model model, int id) {
+
 		Rq rq = (Rq) req.getAttribute("rq");
+
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+
 		if (article == null) {
 			return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
+
 		model.addAttribute("article", article);
+
 		return "/usr/article/modify";
 	}
+
 	// 로그인 체크 -> 유무 체크 -> 권한 체크 -> 수정
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
@@ -57,14 +63,12 @@ public class UsrArticleController {
 		Article article = articleService.getArticleById(id);
 
 		if (article == null) {
-		
 			return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
 
 		ResultData userCanModifyRd = articleService.userCanModify(rq.getLoginedMemberId(), article);
 
 		if (userCanModifyRd.isFail()) {
-		
 			return Ut.jsHistoryBack(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg());
 		}
 
@@ -74,7 +78,6 @@ public class UsrArticleController {
 
 		article = articleService.getArticleById(id);
 
-		
 		return Ut.jsReplace(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), "../article/detail?id=" + id);
 	}
 
@@ -103,17 +106,21 @@ public class UsrArticleController {
 		return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../article/list");
 	}
 
+	@RequestMapping("/usr/article/write")
+	public String showWrite(HttpServletRequest req) {
+		return "usr/article/write";
+	}
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doWrite(HttpServletRequest req, String title, String body) {
+	public String doWrite(HttpServletRequest req, String title, String body) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.isEmptyOrNull(title)) {
-			return ResultData.from("F-1", "제목을 입력해주세요");
+			return Ut.jsHistoryBack("F-1", "제목을 입력해주세요");
 		}
-		if (Ut.isEmptyOrNull(body)) {
-			return ResultData.from("F-2", "내용을 입력해주세요");
+		if (Ut.isEmptyOrNull(body)) {			
+			return Ut.jsHistoryBack("F-2", "내용을 입력해주세요");
 		}
 
 		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
@@ -122,7 +129,7 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticleById(id);
 
-		return ResultData.newData(writeArticleRd, "생성된 게시글", article);
+		return Ut.jsReplace(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "../article/detail?id=" + id);
 	}
 
 	@RequestMapping("/usr/article/list")

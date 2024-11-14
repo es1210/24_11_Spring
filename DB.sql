@@ -136,6 +136,9 @@ UPDATE article
 SET boardId = 3
 WHERE id = 4;
 
+#boardId 기본값 세팅
+ALTER TABLE article MODIFY boardId INT DEFAULT 1;
+
 ###(INIT 끝)
 ##########################################
 SELECT *

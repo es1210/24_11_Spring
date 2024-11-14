@@ -16,6 +16,8 @@
 <!-- 테일윈드 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.4/tailwind.min.css">
 <!-- 테일윈드 치트시트 : https://nerdcave.com/tailwind-cheat-sheet -->
+<!-- daisyUI -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.10/full.css" />
 </head>
 <body>
 	<header>
@@ -28,9 +30,10 @@
 				<li class="mr-4"><a class="hover:underline" href="../article/list">LIST</a></li>
 				<c:if test="${!rq.isLogined() }">
 				<li class="mr-4"><a class="hover:underline" href="../member/login">LOGIN</a></li>
-				<li><a class="hover:underline" href="../member/join">JOIN</a></li>
+				<li class="mr-4"><a class="hover:underline" href="../member/join">JOIN</a></li>
 				</c:if>
 				<c:if test="${rq.isLogined() }">
+				<li class="mr-4"><a class="hover:underline" href="../article/write">WRITE</a></li>
 					<li><a onclick="if(confirm('로그아웃 하시겠습니까?') == false) return false;" class="hover:underline"
 						href="../member/doLogout">LOGOUT</a></li>
 				</c:if>
