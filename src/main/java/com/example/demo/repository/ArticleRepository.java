@@ -16,7 +16,7 @@ public interface ArticleRepository {
 	public void writeArticle(int memberId, String title, String body);
 	//@Delete("DELETE FROM article WHERE id = #{id}")
 	public void deleteArticle(int id);
-	//@Update("UPDATE article SET updateDate = NOW(), title = #{title}, `body` = #{body} WHERE id = #{id}")
+	@Update("UPDATE article SET updateDate = NOW(), title = #{title}, `body` = #{body} WHERE id = #{id}")
 	public void modifyArticle(int id, String title, String body);
 	//@Select("SELECT * FROM article WHERE id = #{id}")
 	@Select("""

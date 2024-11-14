@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.ArticleRepository">
-	<update id="modifyArticle">
+	<!-- <update id="modifyArticle">
 		UPDATE article 
 		<set>
 			<if test="title != null and title != ''">title = #{title},</if>
@@ -11,7 +11,7 @@
 			updateDate = NOW()
 		</set>
 		WHERE id = #{id}
-	</update>
+	</update> -->
 	
 	<delete id="deleteArticle">
 		DELETE FROM article
