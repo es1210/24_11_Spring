@@ -18,6 +18,7 @@ public interface ArticleRepository {
 	public void deleteArticle(int id);
 	//@Update("UPDATE article SET updateDate = NOW(), title = #{title}, `body` = #{body} WHERE id = #{id}")
 	public void modifyArticle(int id, String title, String body);
+	//@Select("SELECT * FROM article WHERE id = #{id}")
 	@Select("""
 			SELECT A.* , M.nickname AS extra__writer
 			FROM article AS A

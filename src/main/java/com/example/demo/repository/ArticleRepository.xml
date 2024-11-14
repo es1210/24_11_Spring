@@ -12,6 +12,11 @@
 		</set>
 		WHERE id = #{id}
 	</update>
+	
+	<delete id="deleteArticle">
+		DELETE FROM article
+		WHERE id = #{id}
+	</delete>
 
 	<insert id="writeArticle">
 		INSERT INTO article
@@ -31,11 +36,13 @@
 		A.id DESC
 	</select>
 
+	
 <!-- 	<select id="getArticleById" resultType="Article">		
 		SELECT A.* , M.nickname AS extra__writer
 		FROM article AS A
 		INNER JOIN `member` AS M
 		ON A.memberId = M.id
 		WHERE A.id = #{id}
+	
 	</select> -->
 </mapper>

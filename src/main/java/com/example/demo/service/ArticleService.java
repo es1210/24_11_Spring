@@ -13,13 +13,13 @@ import com.example.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
-	
+
 	@Autowired
 	private ArticleRepository articleRepository;
 
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-		
+
 	}
 	public ResultData writeArticle(int memberId, String title, String body) {
 		articleRepository.writeArticle(memberId, title, body);
@@ -53,6 +53,7 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 
+	
 	private void controlForPrintData(int loginedMemberId, Article article) {
 		if (article == null) {
 			return;
@@ -66,6 +67,7 @@ public class ArticleService {
 	public ResultData userCanDelete(int loginedMemberId, Article article) {
 		if (article.getMemberId() != loginedMemberId) {
 			
+			
 			return ResultData.from("F-2", Ut.f("%d번 게시글에 대한 삭제 권한이 없습니다", article.getId()));
 		}
 		return ResultData.from("S-1", Ut.f("%d번 게시글을 삭제했습니다", article.getId()));
@@ -75,7 +77,7 @@ public class ArticleService {
 		if (article.getMemberId() != loginedMemberId) {
 			return ResultData.from("F-2", Ut.f("%d번 게시글에 대한 수정 권한이 없습니다", article.getId()));
 		}
+	
 		return ResultData.from("S-1", Ut.f("%d번 게시글을 수정했습니다", article.getId()), "수정된 게시글", article);
 	}
-
 }
