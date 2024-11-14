@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,7 +32,6 @@ public class UsrArticleController {
 
 		}
 
-	
 		return ResultData.from("S-1", Ut.f("%d번 게시글 입니다", id), "게시글 1개", article);
 	}
 
@@ -135,11 +135,13 @@ public class UsrArticleController {
 		return ResultData.newData(writeArticleRd, "생성된 게시글", article);
 	}
 
-	@RequestMapping("/usr/article/getArticles")
-	@ResponseBody
-	public ResultData<List<Article>> getArticles() {
+	
+	@RequestMapping("/usr/article/list")
+	public String showList(Model model) {
 		List<Article> articles = articleService.getArticles();
-		return ResultData.from("S-1", "Article List", "게시글 목록", articles);
+	
+		model.addAttribute("articles", articles);
+		return "usr/article/list";
 	}
 
 }
