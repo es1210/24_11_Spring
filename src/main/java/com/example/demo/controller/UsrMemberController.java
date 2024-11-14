@@ -9,70 +9,73 @@ import com.example.demo.service.MemberService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
+import com.example.demo.vo.Rq;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrMemberController {
+	
+	@Autowired
+	private Rq rq;
+
 
 	@Autowired
 	private MemberService memberService;
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public ResultData<Member> doLogout(HttpSession httpSession) {
-		boolean isLogined = false;
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-		if (!isLogined) {
-			return ResultData.from("F-A", "이미 로그아웃 함");
-		}
-		httpSession.removeAttribute("loginedMemberId");
-		return ResultData.from("S-1", Ut.f("로그아웃 성공"));
-	}
 	
+	public String doLogout(HttpServletRequest req) {
+
+	
+
+		rq.logout();
+
+	
+		return Ut.jsReplace("S-1", Ut.f("로그아웃 성공"), "/");
+	}
+
 	@RequestMapping("/usr/member/login")
-	public String showLogin() {
+	public String showLogin(HttpServletRequest req) {
 		return "/usr/member/login";
 	}
-	
+
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpSession httpSession, String loginId, String loginPw) {
-		boolean isLogined = false;
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-		if (isLogined) {
-			return Ut.jsHistoryBack("F-A", "이미 로그인 함");
-		}
+	
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
+
+			Rq rq = (Rq) req.getAttribute("rq");
+
 		if (Ut.isEmptyOrNull(loginId)) {
 			return Ut.jsHistoryBack("F-1", "loginId 입력 x");
 		}
 		if (Ut.isEmptyOrNull(loginPw)) {
 			return Ut.jsHistoryBack("F-2", "loginPw 입력 x");
 		}
+
 		Member member = memberService.getMemberByLoginId(loginId);
+
 		if (member == null) {
 			return Ut.jsHistoryBack("F-3", Ut.f("%s는(은) 존재 x", loginId));
 		}
+
 		if (member.getLoginPw().equals(loginPw) == false) {
 			return Ut.jsHistoryBack("F-4", Ut.f("비밀번호 틀림"));
 		}
-		httpSession.setAttribute("loginedMemberId", member.getId());
+
+		rq.login(member);
+
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), "/");
 	}
+
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultData<Member> doJoin(HttpSession httpSession, String loginId, String loginPw, String name,
+
+	public ResultData<Member> doJoin(HttpServletRequest req, String loginId, String loginPw, String name,
 			String nickname, String cellphoneNum, String email) {
-		boolean isLogined = false;
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-		if (isLogined) {
-			return ResultData.from("F-A", "이미 로그인 함");
-		}
 
 		if (Ut.isEmptyOrNull(loginId)) {
 			return ResultData.from("F-1", "loginId 입력 x");
