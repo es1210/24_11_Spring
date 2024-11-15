@@ -158,5 +158,4 @@ INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = CONCAT('제목__', RAND()),
-
 `body` = CONCAT('내용__', RAND());
