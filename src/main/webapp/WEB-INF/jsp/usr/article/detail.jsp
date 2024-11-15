@@ -9,8 +9,14 @@
 	const params = {};
 	params.id = parseInt('${param.id}');
 </script>
+
 <script>
 	function ArticleDetail__doIncreaseHitCount() {
+		const localStorageKey = 'article__' + params.id + '__alreadyOnView';
+		if (localStorage.getItem(localStorageKey)) {
+			return;
+		}
+		localStorage.setItem(localStorageKey, true);
 		$.get('../article/doIncreaseHitCountRd', {
 			id : params.id,
 			ajaxMode : 'Y'
@@ -25,6 +31,7 @@
 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 	})
 </script>
+
 <section class="mt-24 text-xl px-4">
 	<div class="mx-auto">
 		<table class="table" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
@@ -50,7 +57,8 @@
 					<td style="text-align: center;">${article.extra__writer}</td>
 				</tr>
 				<tr>
-					<th style="text-align: center;">Views</th>					
+					<th style="text-align: center;">Views</th>
+
 					<td style="text-align: center;">
 						<span class="article-detail__hit-count">${article.hitCount}</span>
 					</td>
@@ -78,5 +86,7 @@
 		</div>
 	</div>
 </section>
+
+
 
 <%@ include file="../common/foot.jspf"%>
