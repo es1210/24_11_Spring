@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.ArticleService;
@@ -26,7 +28,7 @@ public class UsrArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-	
+
 	@Autowired
 	private BoardService boardService;
 
@@ -113,41 +115,58 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/write")
 	public String showWrite(HttpServletRequest req) {
+
 		return "usr/article/write";
 	}
+
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, String title, String body) {
+	public String doWrite(HttpServletRequest req, String title, String body, String boardId) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.isEmptyOrNull(title)) {
 			return Ut.jsHistoryBack("F-1", "제목을 입력해주세요");
 		}
-		if (Ut.isEmptyOrNull(body)) {			
+		if (Ut.isEmptyOrNull(body)) {
 			return Ut.jsHistoryBack("F-2", "내용을 입력해주세요");
 		}
+		if (Ut.isEmptyOrNull(boardId)) {
+			return Ut.jsHistoryBack("F-3", "게시판을 선택해주세요");
+		}
 
-		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		System.err.println(boardId);
+
+		ResultData writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body, boardId);
 
 		int id = (int) writeArticleRd.getData1();
 
 		Article article = articleService.getArticleById(id);
 
 		return Ut.jsReplace(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "../article/detail?id=" + id);
+
 	}
 
 	@RequestMapping("/usr/article/list")
-		public String showList(Model model, int boardId) {
-		
+	public String showList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page) throws IOException {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+
 		Board board = boardService.getBoardById(boardId);
 
-		List<Article> articles = articleService.getArticles();
+		int articlesCount = articleService.getArticlesCount(boardId);
+		int itemsInAPage = 10;
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
+
+		if (board == null) {
+			return rq.historyBackOnView("없는 게시판임");
+		}
 
 		model.addAttribute("articles", articles);
+		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("board", board);
 
 		return "usr/article/list";
 	}
-
 }
