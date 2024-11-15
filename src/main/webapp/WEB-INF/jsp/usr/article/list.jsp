@@ -20,10 +20,9 @@
 						<option value="title">title</option>
 						<option value="body">body</option>
 						<option value="title,body">title+body</option>
-						<option value="writer">writer</option>
-					</select>
-					<label class="ml-3 input input-bordered input-sm flex items-center gap-2">
-						<input type="text" placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
+						<option value="writer">writer</option>				
+					</select> <label class="ml-3 input input-bordered input-sm flex items-center gap-2"> <input type="text"
+						placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
 						<button type="submit">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
     <path fill-rule="evenodd"
@@ -43,10 +42,9 @@
 					<th style="text-align: center;">ID</th>
 					<th style="text-align: center;">Registration Date</th>
 					<th style="text-align: center;">Title</th>
-					<th style="text-align: center;">Writer</th>
-					<th style="text-align: center;">sumRP</th>
-					<th style="text-align: center;">goodRP</th>
-					<th style="text-align: center;">badRP</th>
+					<th style="text-align: center;">Writer</th>					
+					<th style="text-align: center;">Like</th>
+					<th style="text-align: center;">Dislike</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,10 +53,9 @@
 						<td style="text-align: center;">${article.id}</td>
 						<td style="text-align: center;">${article.regDate.substring(0,10)}</td>
 						<td style="text-align: center;"><a class="hover:underline" href="detail?id=${article.id}">${article.title}</a></td>
-						<td style="text-align: center;">${article.extra__writer}</td>
-						<td style="text-align: center;">${article.extra__sumReactionPoint}</td>
-						<td style="text-align: center;">${article.extra__goodReactionPoint}</td>
-						<td style="text-align: center;">${article.extra__badReactionPoint}</td>
+						<td style="text-align: center;">${article.extra__writer}</td>						
+						<td style="text-align: center;">${article.goodReactionPoint}</td>
+						<td style="text-align: center;">${article.badReactionPoint}</td>
 					</tr>
 				</c:forEach>
 

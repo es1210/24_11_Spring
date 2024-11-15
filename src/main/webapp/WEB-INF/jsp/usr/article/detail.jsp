@@ -56,22 +56,27 @@
 					<th style="text-align: center;">Writer</th>
 					<td style="text-align: center;">${article.extra__writer}</td>
 				</tr>
-				<tr>
-					<th style="text-align: center;">Sum</th>
-					<td style="text-align: center;">${article.extra__sumReactionPoint}</td>
+				<tr>					
+					<th style="text-align: center;">Like</th>
+					<td style="text-align: center;">${article.goodReactionPoint}</td>
 				</tr>
-				<tr>
-					<th style="text-align: center;">LIKE</th>
-					<td style="text-align: center;">${article.extra__goodReactionPoint}</td>
+				<tr>					
+					<th style="text-align: center;">Dislike</th>
+					<td style="text-align: center;">${article.badReactionPoint}</td>
 				</tr>
-				<tr>
-					<th style="text-align: center;">Bad</th>
-					<td style="text-align: center;">${article.extra__badReactionPoint}</td>
+				<tr>					
+					<th style="text-align: center;">LIKE / Dislike</th>
+					<td style="text-align: center;">
+						<button class="btn btn-outline btn-success">👍 LIKE ${article.goodReactionPoint}</button>
+						<button class="btn btn-outline btn-error">👎 DISLIKE ${article.badReactionPoint}</button>
+					</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Views</th>
 					
-					<td style="text-align: center;"><span class="article-detail__hit-count">${article.hitCount}</span></td>
+					<td style="text-align: center;">
+						<span class="article-detail__hit-count">${article.hitCount}</span>
+					</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Title</th>
