@@ -156,17 +156,23 @@ public class UsrArticleController {
 		Board board = boardService.getBoardById(boardId);
 
 		int articlesCount = articleService.getArticlesCount(boardId);
-		int itemsInAPage = 10;
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
+		// 한페이지에 글 10개
+				// 글 20개 -> 2page
+				// 글 25개 -> 3page
+				int itemsInAPage = 10;
 
-		if (board == null) {
-			return rq.historyBackOnView("없는 게시판임");
+				int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
+				List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
+
+				if (board == null) {
+					return rq.historyBackOnView("없는 게시판임");
+				}
+
+				model.addAttribute("articles", articles);
+				model.addAttribute("articlesCount", articlesCount);
+				model.addAttribute("pagesCount", pagesCount);
+				model.addAttribute("board", board);
+
+				return "usr/article/list";
+			}
 		}
-
-		model.addAttribute("articles", articles);
-		model.addAttribute("articlesCount", articlesCount);
-		model.addAttribute("board", board);
-
-		return "usr/article/list";
-	}
-}
