@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+
 import com.example.demo.util.Ut;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ public class Rq {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
+
 		this.req.setAttribute("rq", this);
 	}
 
@@ -69,12 +71,25 @@ public class Rq {
 	public void login(Member member) {
 		session.setAttribute("loginedMemberId", member.getId());
 	}
+
 	public void initBeforeActionInterceptor() {
 		System.err.println("initBeforeActionInterceptor 실행");
 	}
+
 	public String historyBackOnView(String msg) {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
 		return "usr/common/js";
+	}
+	public String getCurrentUri() {
+		String currentUri = req.getRequestURI();
+		String queryString = req.getQueryString();
+		System.err.println(currentUri);
+		System.err.println(queryString);
+		if (currentUri != null && queryString != null) {
+			currentUri += "?" + queryString;
+		}
+		System.out.println(currentUri);
+		return currentUri;
 	}
 }

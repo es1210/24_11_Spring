@@ -35,18 +35,19 @@ public class UsrArticleController {
 
 	@Autowired
 	private ReactionPointService reactionPointService;
+
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
-
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
-		// -1 싫어요 , 0 표현 x, 1 좋아요
-		int userCanReaction = reactionPointService.userCanReaction(rq.getLoginedMemberId(), "article", id);
-		System.err.println(userCanReaction);
-		model.addAttribute("article", article);
-		model.addAttribute("userCanReaction", userCanReaction);
+		
+		// -1 싫어요, 0 표현 x, 1 좋아요
+		int usersReaction = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
+
+		model.addAttribute("article", article);		
+		model.addAttribute("usersReaction", usersReaction);
 
 		return "usr/article/detail";
 	}
