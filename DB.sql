@@ -19,7 +19,7 @@ CREATE TABLE `member`(
       regDate DATETIME NOT NULL,
       updateDate DATETIME NOT NULL,
       loginId CHAR(30) NOT NULL,
-      loginPw CHAR(100) NOT NULL,      
+      loginPw CHAR(100) NOT NULL,
       `authLevel` smallint(2) unsigned default 3 comment '권한 레벨 (3=일반,7=관리자)',
       `name` char(20) not null,
       nickname char(20) not null,
@@ -94,11 +94,9 @@ email = 'abcde@gmail.com';
 
 alter table article add column memberId int(10) unsigned not null after updateDate;
 
-
 update article
 set memberId = 2
 where id in (1,2);
-
 
 update article
 set memberId = 3
@@ -149,6 +147,7 @@ UPDATE article
 SET boardId = 3
 WHERE id = 4;
 
+alter table article add column hitCount int(10) unsigned not null default 0 after `body`;
 ###(INIT 끝)
 ##########################################
 SELECT *
@@ -174,12 +173,57 @@ INSERT INTO article
 )
 select now(), now(), floor(RAND() * 2) + 2, FLOOR(RAND() * 3) + 1, CONCAT('제목__', RAND()), CONCAT('내용__', RAND())
 from article;
+
+
 select floor(RAND() * 2) + 2
+
 SELECT FLOOR(RAND() * 3) + 1
+
+
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
 title = CONCAT('제목__', RAND()),
 `body` = CONCAT('내용__', RAND());
+
 show full columns from `member`;
+
 desc `member`;
+SELECT *
+FROM article
+where boardId = 1
+ORDER BY id DESC;
+SELECT *
+FROM article
+WHERE boardId = 2
+ORDER BY id DESC;
+SELECT *
+FROM article
+WHERE boardId = 3
+ORDER BY id DESC;
+'111'
+SELECT COUNT(*) AS cnt
+FROM article
+WHERE boardId = 1
+ORDER BY id DESC;
+SELECT *
+FROM article
+WHERE boardId = 1 and title like '%123%'
+ORDER BY id DESC;
+SELECT *
+FROM article
+WHERE boardId = 1 and `body` like '%123%'
+ORDER BY id DESC;
+SELECT *
+FROM article
+WHERE boardId = 1 and title like '%123%' or `body` like '%123%'
+ORDER BY id DESC;
+SELECT count(*)
+FROM article AS A
+WHERE A.boardId = 1 
+ORDER BY A.id DESC;
+boardId=1&searchKeywordTypeCode=nickname&searchKeyword=1
+SELECT COUNT(*)
+FROM article AS A
+WHERE A.boardId = 1 and A.memberId = 3
+ORDER BY A.id DESC;

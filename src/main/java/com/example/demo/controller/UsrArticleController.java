@@ -37,6 +37,7 @@ public class UsrArticleController {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
+		articleService.increaseHitCount(id);
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
@@ -165,7 +166,7 @@ public class UsrArticleController {
 		int itemsInAPage = 10;
 
 		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
-		
+
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
 				searchKeyword);
 

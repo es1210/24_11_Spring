@@ -6,7 +6,7 @@
 
 <section class="mt-24 text-xl px-4">
 	<div class="mx-auto">
-		
+
 		<div class="mb-4 flex">
 			<div>${articlesCount }개</div>
 			<div class="flex-grow"></div>
@@ -14,15 +14,16 @@
 			<form action="">
 				<input type="hidden" name="boardId" value="${param.boardId }" />
 				<div class="flex">
-					<select class="select select-sm select-bordered
-						max-w-xs" name="searchKeywordTypeCode"
-						data-value="${param.searchKeywordTypeCode } ">
-						<option value="title">title</option>
-						<option value="body">body</option>
-						<option value="title,body">title+body</option>
-						<option value="nickname">nicnkname</option>
-					</select> <label class="ml-3 input input-bordered input-sm flex items-center gap-2"> <input type="text"
-						placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
+					<select class="select select-sm select-bordered max-w-xs" name="searchKeywordTypeCode"
+						data-value="${param.searchKeywordTypeCode}">
+						<option value="title" ${param.searchKeywordTypeCode == 'title' ? 'selected' : ''}>title</option>
+						<option value="body" ${param.searchKeywordTypeCode == 'body' ? 'selected' : ''}>body</option>
+						<option value="title,body" ${param.searchKeywordTypeCode == 'title,body' ? 'selected' : ''}>title+body</option>
+						<option value="writer" ${param.searchKeywordTypeCode == 'writer' ? 'selected' : ''}>writer</option>
+					</select>
+
+					<label class="ml-3 input input-bordered input-sm flex items-center gap-2">
+						<input type="text" placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
 						<button type="submit">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
     <path fill-rule="evenodd"
@@ -34,6 +35,8 @@
 				</div>
 			</form>
 		</div>
+
+
 		<table class="table" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
 			<thead>
 				<tr>
@@ -61,6 +64,9 @@
 			</tbody>
 		</table>
 	</div>
+
+
+
 	<!-- 	동적 페이징 -->
 	<div class="pagination flex justify-center mt-3">
 		<c:set var="paginationLen" value="3" />

@@ -49,7 +49,7 @@ public class ArticleService {
 
 		return articleRepository.getArticleById(id);
 	}
-	
+
 	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode,
 			String searchKeyword) {
 
@@ -58,7 +58,7 @@ public class ArticleService {
 
 		int limitFrom = (page - 1) * itemsInAPage;
 		int limitTake = itemsInAPage;
-	
+
 		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode,
 				searchKeyword);
 	}
@@ -96,4 +96,7 @@ public class ArticleService {
 		return articleRepository.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
+	public void increaseHitCount(int id) {
+		articleRepository.increaseHitCount(id);
+	}
 }

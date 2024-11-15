@@ -72,8 +72,8 @@ public interface ArticleRepository {
 						</when>
 						<when test="searchKeywordTypeCode == 'body'">
 							AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="searchKeywordTypeCode == 'nickname'">
+						</when>					
+						<when test="searchKeywordTypeCode == 'writer'">
 							AND M.nickname LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
 						<otherwise>
@@ -103,8 +103,8 @@ public interface ArticleRepository {
 	public int getLastInsertId();
 
 	@Select("""
-			<script>
-				SELECT COUNT(*) , M.nickname AS extra__writer
+			<script>				
+				SELECT COUNT(*), A.*, M.nickname AS extra__writer
 				FROM article AS A
 				INNER JOIN `member` AS M
 				ON A.memberId = M.id
@@ -114,24 +114,30 @@ public interface ArticleRepository {
 				</if>
 				<if test="searchKeyword != ''">
 					<choose>
-						<when test="searchKeywordTypeCode == 'title'">				
+						<when test="searchKeywordTypeCode == 'title'">
 							AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
-						<when test="searchKeywordTypeCode == 'body'">					
+						<when test="searchKeywordTypeCode == 'body'">
 							AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
-						</when>
-						<when test="searchKeywordTypeCode == 'nickname'">
+						</when>						
+						<when test="searchKeywordTypeCode == 'writer'">
 							AND M.nickname LIKE CONCAT('%', #{searchKeyword}, '%')
 						</when>
-						<otherwise>							
+						<otherwise>
 							AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
 							OR A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
 						</otherwise>
 					</choose>
-				</if>				
+				</if>
 				ORDER BY A.id DESC;
 			</script>
 			""")
 	public int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 
+	@Update("""
+			UPDATE article
+			SET hitCount = hitCount + 1
+			WHERE id = #{id}
+			""")
+	public void increaseHitCount(int id);
 }
