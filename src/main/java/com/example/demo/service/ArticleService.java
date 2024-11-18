@@ -113,7 +113,8 @@ public class ArticleService {
 		if (affectedRow == 0) {
 			return ResultData.from("F-1", "없는 게시물");
 		}
-	
+
+			
 		return ResultData.from("S-1", "좋아요 증가", "affectedRow", affectedRow);
 	}
 	public ResultData increaseBadReactionPoint(int relId) {

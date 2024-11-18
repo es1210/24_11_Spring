@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 public interface ReactionPointRepository {
 
 	@Select("""
-			SELECT IFNULL(SUM(RP.point),0)			
+			SELECT IFNULL(SUM(RP.point),0)		
 			FROM reactionPoint AS RP
 			WHERE RP.relTypeCode = #{relTypeCode}
 			AND RP.relId = #{relId}			
@@ -27,7 +27,7 @@ public interface ReactionPointRepository {
 			memberId = #{memberId},
 			`point` = 1
 			""")
-	public int increaseReactionPoint(int memberId, String relTypeCode, int relId);
+	
 	public int addGoodReactionPoint(int memberId, String relTypeCode, int relId);
 	@Insert("""
 			INSERT INTO reactionPoint

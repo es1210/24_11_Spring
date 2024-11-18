@@ -155,25 +155,28 @@ public interface ArticleRepository {
 			WHERE id = #{relId}
 			""")
 	public int decreaseGoodReactionPoint(int relId);
+
 	@Update("""
 			UPDATE article
 			SET badReactionPoint = badReactionPoint + 1
 			WHERE id = #{relId}
 			""")
 	public int increaseBadReactionPoint(int relId);
+
 	@Update("""
 			UPDATE article
 			SET badReactionPoint = badReactionPoint - 1
 			WHERE id = #{relId}
 			""")
 	public int decreaseBadReactionPoint(int relId);
+
 	@Update("""
 			UPDATE article
 			SET hitCount = hitCount + 1
 			WHERE id = #{id}
 			""")
 	public int increaseHitCount(int id);
-	
+
 	@Select("""
 			SELECT goodReactionPoint
 			FROM article
@@ -186,5 +189,4 @@ public interface ArticleRepository {
 			WHERE id = #{relId}
 			""")
 	public int getBadRP(int relId);
-
 }
