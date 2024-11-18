@@ -43,7 +43,7 @@ public interface ArticleRepository {
 			SELECT A.*, M.nickname AS extra__writer
 			FROM article AS A
 			INNER JOIN `member` AS M
-			ON A.memberId = M.id			
+			ON A.memberId = M.id
 			WHERE A.id = #{id}
 				""")
 	public Article getForPrintArticle(int id);
@@ -56,11 +56,11 @@ public interface ArticleRepository {
 	public Article getArticleById(int id);
 
 	@Select("""
-			<script>				
+			<script>
 				SELECT A.*, M.nickname AS extra__writer
 				FROM article AS A
 				INNER JOIN `member` AS M
-				ON A.memberId = M.id				
+				ON A.memberId = M.id
 				WHERE 1
 				<if test="boardId != 0">
 					AND boardId = #{boardId}
@@ -81,7 +81,7 @@ public interface ArticleRepository {
 							OR A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
 						</otherwise>
 					</choose>
-				</if>				
+				</if>
 				ORDER BY A.id DESC
 				<if test="limitFrom >= 0">
 					LIMIT #{limitFrom}, #{limitTake}
@@ -141,7 +141,7 @@ public interface ArticleRepository {
 			WHERE id = #{id}
 				""")
 	public int getArticleHitCount(int id);
-	
+
 	@Update("""
 			UPDATE article
 			SET goodReactionPoint = goodReactionPoint + 1
@@ -149,12 +149,42 @@ public interface ArticleRepository {
 			""")
 	public int increaseGoodReactionPoint(int relId);
 
-
+	@Update("""
+			UPDATE article
+			SET goodReactionPoint = goodReactionPoint - 1
+			WHERE id = #{relId}
+			""")
+	public int decreaseGoodReactionPoint(int relId);
+	@Update("""
+			UPDATE article
+			SET badReactionPoint = badReactionPoint + 1
+			WHERE id = #{relId}
+			""")
+	public int increaseBadReactionPoint(int relId);
+	@Update("""
+			UPDATE article
+			SET badReactionPoint = badReactionPoint - 1
+			WHERE id = #{relId}
+			""")
+	public int decreaseBadReactionPoint(int relId);
 	@Update("""
 			UPDATE article
 			SET hitCount = hitCount + 1
 			WHERE id = #{id}
 			""")
 	public int increaseHitCount(int id);
+	
+	@Select("""
+			SELECT goodReactionPoint
+			FROM article
+			WHERE id = #{relId}
+			""")
+	public int getGoodRP(int relId);
+	@Select("""
+			SELECT badReactionPoint
+			FROM article
+			WHERE id = #{relId}
+			""")
+	public int getBadRP(int relId);
 
 }

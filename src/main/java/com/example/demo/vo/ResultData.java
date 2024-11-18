@@ -1,7 +1,7 @@
 package com.example.demo.vo;
 
 import lombok.Getter;
-import lombok.Setter;
+
 
 public class ResultData<DT> {
 
@@ -32,6 +32,17 @@ public class ResultData<DT> {
 		return rd;
 	}
 
+	public static <DT> ResultData<DT> from(String resultCode, String msg, String data1Name, DT data1, String data2Name,
+			DT data2) {
+		ResultData<DT> rd = new ResultData<DT>();
+		rd.ResultCode = resultCode;
+		rd.msg = msg;
+		rd.data1Name = data1Name;
+		rd.data1 = data1;
+		rd.data2Name = data2Name;
+		rd.data2 = data2;
+		return rd;
+	}
 	public boolean isSuccess() {
 		return ResultCode.startsWith("S-");
 	}
@@ -48,4 +59,5 @@ public class ResultData<DT> {
 		this.data2 = data2;
 		this.data2Name = data2Name;
 	}
+
 }
