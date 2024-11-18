@@ -9,6 +9,11 @@
 <script>
 	const params = {};
 	params.id = parseInt('${param.id}');
+	params.memberId = parseInt('${loginedMemberId}')
+	
+	console.log(params);
+	console.log(params.id);
+	console.log(params.memberId);
 	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
 	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 </script>
@@ -50,6 +55,17 @@
 	}
 function doGoodReaction(articleId) {
 		
+		if(isNaN(params.memberId) == true){
+			if(confirm('로그인이 필요합니다.')){
+// 				console.log(window.location.href);
+// 				console.log(encodeURIComponent(window.location.href));
+				var currentUri = encodeURIComponent(window.location.href);
+				window.location.href = '../member/login?afterLoginUri=' + currentUri;
+			}
+			return;
+		}	
+	
+	
 		$.ajax({
 			url: '/usr/reactionPoint/doGoodReaction',
 			type: 'POST',
@@ -99,6 +115,15 @@ function doGoodReaction(articleId) {
 	}
 function doBadReaction(articleId) {
 	
+	if(isNaN(params.memberId) == true){
+		if(confirm('로그인이 필요합니다.')){
+//				console.log(window.location.href);
+//				console.log(encodeURIComponent(window.location.href));
+			var currentUri = encodeURIComponent(window.location.href);
+			window.location.href = '../member/login?afterLoginUri=' + currentUri; // 로그인 페이지에 원래 페이지의 정보를 포함시켜서 보냄
+		}
+		return;
+	}	
 	 $.ajax({
 			url: '/usr/reactionPoint/doBadReaction',
 			type: 'POST',
@@ -190,18 +215,12 @@ function doBadReaction(articleId) {
 					<td style="text-align: center;">
 
 						<button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${param.id})">
-							👍 LIKE
-							
-							<span class="likeCount">${article.goodReactionPoint}</span>
+							👍 LIKE <span class="likeCount">${article.goodReactionPoint}</span>
 						</button>
 						<button id="DislikeButton" class="btn btn-outline btn-error" onclick="doBadReaction(${param.id})">
-							👎 DISLIKE
-							
-							<span class="DislikeCount">${article.badReactionPoint}</span>
-						</button>
-						<%-- 						<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}" --%>
-						<%-- 							class="btn btn-outline btn-success">👍 LIKE ${article.goodReactionPoint}</a> --%>
-						<%-- 						<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}" --%>
+							👎 DISLIKE <span class="DislikeCount">${article.badReactionPoint}</span>
+						</button> <%-- 						<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}" --%>
+						<%-- 							class="btn btn-outline btn-success">👍 LIKE ${article.goodReactionPoint}</a> --%> <%-- 						<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}" --%>
 						<%-- 							class="btn btn-outline btn-error">👎 DISLIKE ${article.badReactionPoint}</a> --%>
 					</td>
 				</tr>
@@ -209,9 +228,7 @@ function doBadReaction(articleId) {
 				<tr>
 					<th style="text-align: center;">Views</th>
 
-					<td style="text-align: center;">
-						<span class="article-detail__hit-count">${article.hitCount}</span>
-					</td>
+					<td style="text-align: center;"><span class="article-detail__hit-count">${article.hitCount}</span></td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">Title</th>
@@ -219,7 +236,7 @@ function doBadReaction(articleId) {
 				</tr>
 				<tr>
 					<th style="text-align: center;">Body</th>
-					<td style="text-align: center;">${article.body}</td>
+					<td style="text-align: center; white-space: pre-wrap;"><c:out value="${article.body}" escapeXml="true" /></td>
 				</tr>
 
 			</tbody>

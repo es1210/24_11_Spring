@@ -26,8 +26,8 @@
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td style="text-align: center;"><input class="input input-bordered input-primary input-sm w-full max-w-xs"
-							name="body" autocomplete="off" type="text" placeholder="내용을 입력해" /></td>
+						<td style="text-align: center;"><textarea class="textarea textarea-bordered textarea-primary w-full max-w-xs"
+								name="body" placeholder="내용을 입력해" rows="10"></textarea></td>
 
 					</tr>
 					<tr>
