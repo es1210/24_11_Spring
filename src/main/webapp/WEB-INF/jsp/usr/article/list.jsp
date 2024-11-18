@@ -14,13 +14,11 @@
 			<form action="">
 				<input type="hidden" name="boardId" value="${param.boardId }" />
 				<div class="flex">
-					<select class="select select-sm select-bordered
-						max-w-xs" name="searchKeywordTypeCode"
-						data-value="${param.searchKeywordTypeCode } ">
-						<option value="title">title</option>
-						<option value="body">body</option>
-						<option value="title,body">title+body</option>
-						<option value="writer">writer</option>				
+					<select class="select select-sm select-bordered max-w-xs" name="searchKeywordTypeCode">
+						<option value="title" ${param.searchKeywordTypeCode == 'title' ? 'selected' : ''}>title</option>
+						<option value="body" ${param.searchKeywordTypeCode == 'body' ? 'selected' : ''}>body</option>
+						<option value="title,body" ${param.searchKeywordTypeCode == 'title,body' ? 'selected' : ''}>title+body</option>
+						<option value="writer" ${param.searchKeywordTypeCode == 'writer' ? 'selected' : ''}>writer</option>
 					</select> <label class="ml-3 input input-bordered input-sm flex items-center gap-2"> <input type="text"
 						placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
 						<button type="submit">
@@ -42,7 +40,7 @@
 					<th style="text-align: center;">ID</th>
 					<th style="text-align: center;">Registration Date</th>
 					<th style="text-align: center;">Title</th>
-					<th style="text-align: center;">Writer</th>					
+					<th style="text-align: center;">Writer</th>
 					<th style="text-align: center;">Like</th>
 					<th style="text-align: center;">Dislike</th>
 				</tr>
@@ -53,7 +51,7 @@
 						<td style="text-align: center;">${article.id}</td>
 						<td style="text-align: center;">${article.regDate.substring(0,10)}</td>
 						<td style="text-align: center;"><a class="hover:underline" href="detail?id=${article.id}">${article.title}</a></td>
-						<td style="text-align: center;">${article.extra__writer}</td>						
+						<td style="text-align: center;">${article.extra__writer}</td>
 						<td style="text-align: center;">${article.goodReactionPoint}</td>
 						<td style="text-align: center;">${article.badReactionPoint}</td>
 					</tr>
